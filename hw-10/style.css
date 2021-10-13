@@ -1,0 +1,38 @@
+body {
+    margin: 0;
+}
+
+main {
+    max-width: 700px;
+    margin: 0 auto;
+    padding: 0 15px;
+    height: 100vh;
+    background-color: lightgray;
+}
+
+h1 {
+    margin: 0;
+    padding: 30px;
+    text-align: center;
+}
+
+ol > li {
+    font-size: 20px;
+    font-style: italic;
+}
+
+li > input {
+    margin-left: 20px;
+}
+
+.line {
+    text-decoration: line-through;
+}
+
+button {
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: lightsalmon;
+}
