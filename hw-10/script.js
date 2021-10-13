@@ -18,11 +18,11 @@
 
         checkbox.addEventListener('click', () => {
             newTask.classList.toggle('line');
-        })
+        });
 
         deleteBtn.innerText = 'delete';
         deleteBtn.addEventListener('click', () => {
             newTask.remove();
-        })
-    })
+        });
+    });
 })();
