@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Homework 11</title>
+    <link href="https://unpkg.com/nes.css@2.3.0/css/nes.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <script src="script.js" defer></script>
+</head>
+<body>
+    <main id="main">
+        <h1>Personal account</h1>
+        <p class="arror--close nes-balloon from-left" id="arror-info"></p>
+        <form id="form" method="post">
+            <div class="nes-field" id="logfield">
+                <label for="login">Your login (e-mail)</label>
+                <input class="nes-input" type="text" id="login" name="users login">
+            </div>
+            <div class="nes-field" id="passfield">
+                <label for="password">Your password</label>
+                <input class="nes-input" type="password" id="password" name="users password">
+            </div>
+            <button class="nes-btn is-disabled" type="submit" id="btn">LOG IN</button>
+        </form>
+        <section class="message-left form--close">
+            <i class="nes-bcrikko"></i>
+            <div class="nes-balloon from-left">
+                <p>Congratulations, your authorisation was successful</p>
+            </div>
+        </section>
+    </main>
+</body>
+</html>
