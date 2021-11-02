@@ -28,7 +28,7 @@
         };
     } 
 
-    const student = new Student('Bob', 'law', [5, 99, 12, -3, 15, 86]);
+    const student = new Student('Bob', 'law', [5, 99, 12, 3, 15, 86]);
 
     console.log(student);
     console.log(student.getAvgMark());
