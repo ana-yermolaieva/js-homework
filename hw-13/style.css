@@ -1,0 +1,80 @@
+body {
+    margin: 0;
+    box-sizing: border-box;
+    background-color: sandybrown;
+}
+
+.section {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 0 15px;
+    background-color: sandybrown;
+}
+
+.title {
+    text-align: center;
+    padding-bottom: 20px;
+}
+
+.accordion {
+    border: 1px solid;
+}
+
+.btn-box {
+    padding: 15px;
+    background-color: darkgreen;
+}
+
+.btn {
+    width: 100%;
+    font-size: 18px;
+    border: none;
+    color: cornsilk;
+    background-color: darkgreen;
+    cursor: pointer;
+    text-align: left;
+    padding: 5px 0 5px 5px;
+    position: relative;
+}
+
+.btn::before,
+.btn::after {
+    display: inline-flex;
+    width: 10px;
+    height: 5px;
+    position: absolute;
+    color: cornsilk;
+}
+
+.btn::before {
+    content: '|';
+    top: 0;
+    right: 3px;
+}
+
+.btn::after {
+    content: '__';
+    top: -7px;
+    right: 11px;
+}
+
+.btn:hover {
+    border-radius: 5px;
+    text-decoration: underline rgb(80, 131, 80);
+    opacity: 0.8;
+    transition-duration: 1s;
+}
+
+.info {
+    padding: 15px;
+    margin: 0;
+    display: none;
+}
+
+.accordion-item-active .btn::before {
+    content: '';
+}
+
+.accordion-item-active .info {
+    display: block;
+}
