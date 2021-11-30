@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Homework 16</title>
+    <script src="script.js" defer></script>
+</head>
+<body>
+    <section>
+        <h1>HTTP Basics</h1>
+        <div class="box">
+            <article class="box-list">
+                <h2>Users List</h2>
+                <ul id="list">
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                </ul>
+                <button id="prevBtn">PREV</button>
+                <button id="nextBtn">NEXT</button>
+            </article>
+            <article class="box-form">
+                <h2>Use this form to add a new user</h2>
+                <form id="form">
+                    <input id="inputEmail" name="email" placeholder="e-mail" type="email" required>
+                    <input id="inputFirstName" name="first_name" placeholder="first name" type="text" required>
+                    <input id="inputLastName" name="last_name" placeholder="last name" type="text" required>
+                    Download an avatar for a new user
+                    <input id="inputAvatar" name="avatar" value="https://upload.wikimedia.org/wikipedia/commons/e/e0/Check_green_icon.svg" placeholder="avatar" type="file" required>
+                    <button id="newUserBtn" type="submit">Add user</button>
+                </form>
+            </article>
+        </div>
+    </section>
+</body>
+</html>

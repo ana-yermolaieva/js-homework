@@ -1,0 +1,46 @@
+.visually-hidden {
+    position: absolute;
+	width: 1px;
+	height: 1px;
+	margin: -1px;
+	border: 0;
+	padding: 0;
+	clip: rect(0 0 0 0);
+	overflow: hidden;
+}
+
+section {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 15px;
+}
+
+h1,
+h2 {
+    text-align: center;
+}
+
+.box-list {
+    width: 70%;
+}
+
+ul > li {
+    list-style-type: none;
+}
+
+.box-form {
+    width: 50%;
+}
+
+form,
+.box {
+    display: flex;
+}
+
+form {
+    flex-direction: column;
+}
+
+input {
+    margin-bottom: 10px;
+}
