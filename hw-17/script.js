@@ -45,70 +45,54 @@ function checkBtn (elem1, elem2) {
     }
 }
 
-function getPage (users, listElemArr) {
-    for (let i = 0; i < users.length; i++) {
-        listElemArr[i].data = `${users[i].id}`;
-        listElemArr[i].innerHTML = `
-        <img src='${users[i].avatar}' style="display: block" alt="user avatar" widht="100%" >
-        <span class="userInfo">${users[i].first_name} ${users[i].last_name}</span>
-        <p class="userEmail">Write me: ${users[i].email}</p>`;
-    }
-}
-
-function sentRequest(method, url) {
+function sentRequest(method, url, callback) {
     newUrl = new URL(url);
     newUrl.searchParams.set(`page`, `${paginator}`);
     const xhr = new XMLHttpRequest();
-    xhr.open(method, newUrl, false);
+    xhr.open(method, newUrl);
     xhr.send();
-    const { data : users } = JSON.parse(xhr.response);
-    return users;
+    xhr.onload = (e) => {
+        const { data : users } = JSON.parse(e.currentTarget.responseText);
+        callback(users, cardsEl);
+    };
 }
 
-function patchRequest(url, body={}) {
+function patchRequest(url, body={}, callback) {
     let changedUser = {};
     const xhr = new XMLHttpRequest();
-    xhr.open('PATCH', url, false);
+    xhr.open('PATCH', url, true);
     xhr.setRequestHeader('Content-Type', 'application/json');
     xhr.send(JSON.stringify(body));
-    console.log(xhr.status);
-    changedUser = JSON.parse(xhr.response);
-    console.log(changedUser);
-    return changedUser;
+    xhr.onload = (e) => {
+        changedUser = JSON.parse(e.currentTarget.responseText);
+        console.log(changedUser);
+        callback(changedUser);
+    }
 }
 
-function deleteRequest(url, body={}) {
+function deleteRequest(url, body={}, callback) {
+    let deletedUser = {};
     const xhr = new XMLHttpRequest();
-    xhr.open('DELETE', url, false);
+    xhr.open('DELETE', url, true);
     xhr.setRequestHeader('Content-Type', 'application/json');
     xhr.send(JSON.stringify(body));
+    xhr.onload = () => {
+        callback(deletedUser);
+    }
 }
 
-function authPostRequest(method, url, body={}) {
+function authPostRequest(method, url, body={}, callback) {
     const xhr = new XMLHttpRequest();
-    xhr.open(method, url, false);
+    xhr.open(method, url);
     xhr.setRequestHeader('Content-Type', 'application/json');
     xhr.send(String(body));
-    const { token : key } = JSON.parse(xhr.response);
-    if (key == `QpwL5tke4Pnpja7X4`) {
-        arrorInfo.classList.add("arror--show");
-        arrorInfo.innerText = "Authorization is successful";
-        setTimeout(() => {
-            formEl.style.display = 'none';
-            passEl.style.display = 'none';
-            arrorInfo.classList.remove("arror--show");
-            boxListEl.style.display = 'block';
-        }, 2000);
-    } else {
-        arrorInfo.classList.add("arror--show");
-        arrorInfo.innerText = "Incorrect info!! Try again";
+    xhr.onload = (e) => {
+        const { token : key } = JSON.parse(e.currentTarget.responseText);
+        callback(key);
     }
 }
 
 (() => {
-    let usersList = sentRequest('GET', requestUrl);
-    console.log(usersList);
-
     loginEl.addEventListener('focusout', () => {
         checkInputValue(loginEl, !validLogin(loginEl.value));
         checkBtn(loginEl, passEl);
@@ -126,7 +110,21 @@ function authPostRequest(method, url, body={}) {
             authPostRequest(`POST`, `https://reqres.in/api/login`, (`{
                 "email": "${loginEl.value}",
                 "password": "${passEl.value}"}`
-            ));
+            ), (key) => {
+                if (key == `QpwL5tke4Pnpja7X4`) {
+                    arrorInfo.classList.add("arror--show");
+                    arrorInfo.innerText = "Authorization is successful";
+                    setTimeout(() => {
+                        formEl.style.display = 'none';
+                        passEl.style.display = 'none';
+                        arrorInfo.classList.remove("arror--show");
+                        boxListEl.style.display = 'block';
+                    }, 2000);
+                } else {
+                    arrorInfo.classList.add("arror--show");
+                    arrorInfo.innerText = "Incorrect info!! Try again";
+                }
+            });
         } else {
             checkInputValue(loginEl, !validLogin(loginEl.value));
             checkInputValue(passEl, !passEl.value);
@@ -134,13 +132,27 @@ function authPostRequest(method, url, body={}) {
         }
     });
 
-    getPage(sentRequest('GET', requestUrl), cardsEl);
-    const usersInfo = document.getElementsByClassName('userInfo');
-    const userLogin = document.getElementsByClassName('userEmail');
-
+    sentRequest('GET', requestUrl, (users, cardsEl) => {
+        for (let i = 0; i < users.length; i++) {
+            cardsEl[i].data = `${users[i].id}`;
+            cardsEl[i].innerHTML = `
+            <img src='${users[i].avatar}' style="display: block" alt="user avatar" widht="100%" >
+            <span class="userInfo">${users[i].first_name} ${users[i].last_name}</span>
+            <p class="userEmail">Write me: ${users[i].email}</p>`;
+        }
+    });
+   
     prevBtnEl.addEventListener('click', () => {
         paginator > 1 ? --paginator : paginator;  
-        getPage(sentRequest('GET', requestUrl), cardsEl);
+        sentRequest('GET', requestUrl, (users, cardsEl) => {
+            for (let i = 0; i < users.length; i++) {
+                cardsEl[i].data = `${users[i].id}`;
+                cardsEl[i].innerHTML = `
+                <img src='${users[i].avatar}' style="display: block" alt="user avatar" widht="100%" >
+                <span class="userInfo">${users[i].first_name} ${users[i].last_name}</span>
+                <p class="userEmail">Write me: ${users[i].email}</p>`;
+            }
+        });
         console.log('pressed prev_btn');
         for (let index = 0; index < cardsEl.length; index++) {
             cardsEl[index].style.display = 'block';
@@ -153,7 +165,15 @@ function authPostRequest(method, url, body={}) {
 
     nextBtnEl.addEventListener('click', () => {
         paginator < 2 ? ++paginator : paginator;  
-        getPage(sentRequest('GET', requestUrl), cardsEl);
+        sentRequest('GET', requestUrl, (users, cardsEl) => {
+            for (let i = 0; i < users.length; i++) {
+                cardsEl[i].data = `${users[i].id}`;
+                cardsEl[i].innerHTML = `
+                <img src='${users[i].avatar}' style="display: block" alt="user avatar" widht="100%" >
+                <span class="userInfo">${users[i].first_name} ${users[i].last_name}</span>
+                <p class="userEmail">Write me: ${users[i].email}</p>`;
+            }
+        });
         console.log('pressed next_btn');
         for (let index = 0; index < cardsEl.length; index++) {
             cardsEl[index].style.display = 'block';
@@ -167,33 +187,41 @@ function authPostRequest(method, url, body={}) {
     for (let i = 0; i < changeBtnEl.length; i++) {
         changeBtnEl[i].addEventListener('click', () => {
             if(confirm(`Do you really want to correct info?`)){
-                usersList = sentRequest('GET', requestUrl);
-                console.log('pressed change_btn');
-                formEl.style.display = "block";
-                loginEl.value = `${usersList[i].email}`;
-                firstNameEl.parentElement.style.display = "block";
-                firstNameEl.value = `${usersList[i].first_name}`;
-                lastNameEl.parentElement.style.display = "block";
-                lastNameEl.value = `${usersList[i].last_name}`;
-                loginBtn.style.display = "none";
-                formBtnEl.style.display = "block";
-                cardsEl[i].id = usersList[i].id;
+                sentRequest('GET', requestUrl, (users, cardsEl) => {
+                    console.log('pressed change_btn');
+                    console.log(users); // реально выводит нам список, но вытащить его не можем
+                    formEl.style.display = "block";
+                    loginEl.value = `${users[i].email}`;
+                    firstNameEl.parentElement.style.display = "block";
+                    firstNameEl.value = `${users[i].first_name}`;
+                    lastNameEl.parentElement.style.display = "block";
+                    lastNameEl.value = `${users[i].last_name}`;
+                    loginBtn.style.display = "none";
+                    formBtnEl.style.display = "block";
+                    cardsEl[i].id = users[i].id;
 
-                formBtnEl.addEventListener('click', (event) => {
-                    let changedUserInfo = patchRequest(`https://reqres.in/api/users/${usersList[i].id}`, {
-                        email: `${loginEl.value}`,
-                        first_name: `${firstNameEl.value}`,
-                        last_name: `${lastNameEl.value}`
-                    }); 
+                    formBtnEl.addEventListener('click', (e) => {
+                        patchRequest(`https://reqres.in/api/users/${users[i].id}`, {
+                            email: `${loginEl.value}`,
+                            first_name: `${firstNameEl.value}`,
+                            last_name: `${lastNameEl.value}`
+                        }, (changedUser) => {
+                            console.log(changedUser);
+                            console.log(changedUser.first_name);
+                            console.log(changedUser.last_name);
+                            const usersInfo = document.getElementsByClassName('userInfo');
+                            const userLogin = document.getElementsByClassName('userEmail');
+                        
+                            usersInfo[i].innerText = `${changedUser.first_name} ${changedUser.last_name}`;
+                            userLogin[i].innerText = `Write me: ${changedUser.email}`;
+                        }); 
 
-                    usersInfo[i].innerText = `${changedUserInfo.first_name} ${changedUserInfo.last_name}`;
-                    userLogin[i].innerText = `Write me: ${changedUserInfo.email}`;
-
-                    setTimeout(() => {
-                        formEl.style.display = 'none';
-                        formBtnEl.style.display = 'none';
-                    }, 1000);
-                }, {'once': true})
+                        setTimeout(() => {
+                            formEl.style.display = 'none';
+                            formBtnEl.style.display = 'none';
+                        }, 1000);
+                    }, {'once': true})
+                });
             }
         })
     }
@@ -204,19 +232,21 @@ function authPostRequest(method, url, body={}) {
             formEl.style.display = "none";
             formBtnEl.style.display = "none";
             if(confirm(`Do you really want to delete profile?`)){
-                users = sentRequest('GET', requestUrl);
-                deleteRequest(`https://reqres.in/api/users/${users[i].id}`, {
-                    email: `${users[i].email}`,
-                    first_name: `${users[i].first_name}`,
-                    last_name: `${users[i].last_name}`
+                sentRequest('GET', requestUrl, (users) => {
+                    deleteRequest(`https://reqres.in/api/users/${users[i].id}`, {
+                        email: `${users[i].email}`,
+                        first_name: `${users[i].first_name}`,
+                        last_name: `${users[i].last_name}`
+                    }, () => {
+                        for (let index = 0; index < cardsEl.length; index++) {
+                            if(cardsEl[index].data == users[i].id ) {
+                                cardsEl[index].style.display = 'none';
+                                changeBtnEl[index].style.display = 'none';
+                                delBtnEl[index].style.display = 'none';
+                            }
+                        }
+                    });
                 });
-                for (let index = 0; index < cardsEl.length; index++) {
-                    if(cardsEl[index].data == users[i].id ) {
-                        cardsEl[index].style.display = 'none';
-                        changeBtnEl[index].style.display = 'none';
-                        delBtnEl[index].style.display = 'none';
-                    }
-                }
             }
         })
     }
