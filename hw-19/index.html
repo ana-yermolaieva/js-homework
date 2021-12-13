@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head> 
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://unpkg.com/nes.css@2.3.0/css/nes.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <title>Homework 19</title>
+    <script src="./app.js" type="module"></script>
+</head>
+<body>
+    <section>
+        <h1 class="visually-hidden">HTTP Basics</h1>
+        <div class="box">
+            <article id="box-list" class="box-list">
+                <h2>Users List</h2>
+                <div id="cards_list" class="cards-list">
+                    <div class="card nes-container is-rounded is-dark">
+                        <button class="changeBtn" type="button"></button>
+                        <button class="delBtn" type="button"></button>
+                        <div class="card-item"></div>
+                    </div>
+                    <div class="card nes-container is-rounded is-dark">
+                        <button class="changeBtn" type="button"></button>
+                        <button class="delBtn" type="button"></button>
+                        <div class="card-item"></div>
+                    </div>
+                    <div class="card nes-container is-rounded is-dark">
+                        <button class="changeBtn" type="button"></button>
+                        <button class="delBtn" type="button"></button>
+                        <div class="card-item"></div>
+                    </div>
+                    <div class="card nes-container is-rounded is-dark">
+                        <button class="changeBtn" type="button"></button>
+                        <button class="delBtn" type="button"></button>
+                        <div class="card-item"></div>
+                    </div>
+                    <div class="card nes-container is-rounded is-dark">
+                        <button class="changeBtn" type="button"></button>
+                        <button class="delBtn" type="button"></button>
+                        <div class="card-item"></div>
+                    </div>
+                    <div class="card nes-container is-rounded is-dark">
+                        <button class="changeBtn" type="button"></button>
+                        <button class="delBtn" type="button"></button>
+                        <div class="card-item"></div>
+                    </div>
+                </div>
+                <button id="prevBtn">PREV</button>
+                <button id="nextBtn">NEXT</button>
+            </article>
+            <article class="box-form">
+                <form action="https://reqres.in/api/login" id="form" method="post">
+                    <h2>Authorization form</h2>
+                    <p class="arror--close nes-balloon from-left" id="arror-info"></p>
+                    <div class="nes-field">
+                        <input id="login" class="nes-input" type="email" placeholder="login" name="email login">
+                    </div>
+                    <div class="nes-field">
+                        <input id="password" class="nes-input" type="password" placeholder="password" name="password">
+                    </div>
+                    <div class="nes-field nes-field--correct">
+                        <input id="firstName" class="nes-input" name="first_name" placeholder="first name" type="text">
+                    </div>
+                    <div class="nes-field nes-field--correct">
+                        <input id="lastName" class="nes-input" name="last_name" placeholder="last name" type="text" >
+                    </div>
+                    <input id="avatar" class="nes-field--correct" name="avatar" placeholder="avatar" type="file">
+                    <button id="loginBtn" class="nes-btn is-disabled" type="submit">LOG IN</button>
+                </form>
+                <button id="formBtn" class="nes-btn formBtn is-success" type="button">Change info</button>
+            </article>
+        </div>
+    </section>
+</body>
+</html>
