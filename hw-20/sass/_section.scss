@@ -1,0 +1,112 @@
+section {
+    max-width: 1200px;
+    margin: 0 auto;
+    height: 100%;
+    padding: 0 15px;
+    background-color: $main-col;
+    box-shadow: 0 0 0 4px inset $cards-bg;
+}
+
+h1,
+h2 {
+    margin-top: 0;
+    padding-top: 10px;
+    text-align: center;
+}
+
+.nes-field {
+    margin-bottom: 30px;
+}
+
+.arror::after {
+    content: '* It is not valid. Please, enter the correct value!';
+    color: $red;
+    display: block;
+    width: auto;
+    height: 10px;
+    position: absolute;
+}
+
+.arror > input {
+    background-color: $brown;
+}
+
+.arror--close {
+    display: none;
+}
+
+.arror--show {
+    display: inline-block;
+    padding: 5px 20px;
+}
+
+.message--success {
+    display: block;
+}
+
+.box-list {
+    display: none;
+    width: 70%;
+}
+
+ul > li {
+    list-style-type: none;
+}
+
+.box-form {
+    width: 30%;
+}
+
+form,
+.box,
+.cards-list {
+    display: flex;
+}
+
+form,
+.cards-list {
+    flex-direction: column;
+}
+
+form {
+    margin-bottom: 20px;
+}
+
+.box {
+    justify-content: center;
+}
+
+input {
+    margin-bottom: 10px;
+}
+
+.formBtn {
+    display: none;
+}
+
+.nes-field--correct {
+    display: none;
+}
+
+.changeBtn,
+.delBtn {
+    border: none;
+    cursor: pointer;
+    height: 30px;
+    width: 30px;
+    margin-right: 10px;
+    background-color: $cards-bg;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+.changeBtn {
+    background-image: url(img/change.svg);
+}
+
+.delBtn {
+    background-image: url(img/delete.svg);
+}
+
+p {
+    font-family: 'Times New Roman', sans-serif;
+}
