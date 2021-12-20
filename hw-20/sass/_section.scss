@@ -95,18 +95,14 @@ input {
     height: 30px;
     width: 30px;
     margin-right: 10px;
-    background-color: $cards-bg;
     background-repeat: no-repeat;
     background-position: center;
 }
+
 .changeBtn {
-    background-image: url(img/change.svg);
+    background-image: url(img/change.webp);
 }
 
 .delBtn {
-    background-image: url(img/delete.svg);
-}
-
-p {
-    font-family: 'Times New Roman', sans-serif;
+    background-image: url(img/delete.webp);
 }

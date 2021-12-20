@@ -1,7 +1,7 @@
 // authorization
 // "email": "eve.holt@reqres.in",
 // "password": "cityslicka"}`
-
+ 
 const boxListEl = document.getElementById('box-list');
 const cardsListEl = document.getElementById('cards_list');
 const cardsEl = document.getElementsByClassName('card-item');
@@ -19,31 +19,24 @@ const nextBtnEl = document.getElementById('nextBtn');
 const changeBtnEl = document.getElementsByClassName('changeBtn');
 const delBtnEl = document.getElementsByClassName('delBtn');
 const requestUrl = 'https://reqres.in/api/users';
-let newUrl = new URL(requestUrl);
 let paginator = 1;
-
-import {validLogin, checkInputValue, checkBtn} from './modules/valid.js';
-import {authPostRequest} from './modules/authorization.js';
-import {sentRequest} from './modules/template.js';
-import {changeUser, deleteUser} from './modules/userchanger.js';
-
 
 (() => {
     loginEl.addEventListener('focusout', () => {
         checkInputValue(loginEl, !validLogin(loginEl.value));
-        checkBtn(loginEl, passEl, logBtnEl);
+        checkBtn(loginEl, passEl);
     });
 
     passEl.addEventListener('focusout', () => {
         checkInputValue(passEl, !passEl.value);
-        checkBtn(loginEl, passEl, logBtnEl);
+        checkBtn(loginEl, passEl);
     });
     
     formEl.addEventListener('submit', (event) => {
         event.preventDefault();
 
         if(loginEl.value && passEl.value) {
-            authPostRequest(`https://reqres.in/api/login`, loginEl, passEl, arrorInfo, formEl, boxListEl);
+            authPostRequest(`https://reqres.in/api/login`);
         } else {
             checkInputValue(loginEl, !validLogin(loginEl.value));
             checkInputValue(passEl, !passEl.value);
@@ -51,11 +44,11 @@ import {changeUser, deleteUser} from './modules/userchanger.js';
         }
     });
 
-    sentRequest(cardsEl, newUrl, paginator);
+    sentRequest(requestUrl, cardsEl);
    
     prevBtnEl.addEventListener('click', () => {
         paginator > 1 ? --paginator : paginator;  
-        sentRequest(cardsEl, newUrl, paginator);
+        sentRequest(requestUrl, cardsEl);
         console.log('pressed prev_btn');
         for (let index = 0; index < cardsEl.length; index++) {
             cardsEl[index].style.display = 'block';
@@ -68,7 +61,7 @@ import {changeUser, deleteUser} from './modules/userchanger.js';
 
     nextBtnEl.addEventListener('click', () => {
         paginator < 2 ? ++paginator : paginator;  
-        sentRequest(cardsEl, newUrl, paginator);
+        sentRequest(requestUrl, cardsEl);
         console.log('pressed next_btn');
         for (let index = 0; index < cardsEl.length; index++) {
             cardsEl[index].style.display = 'block';
@@ -87,7 +80,7 @@ import {changeUser, deleteUser} from './modules/userchanger.js';
                 lastNameEl.parentElement.style.display = "block";
                 loginBtn.style.display = "none";
                 formBtnEl.style.display = "block";
-                changeUser(newUrl, i, paginator, loginEl, firstNameEl, lastNameEl, cardsEl, formEl, formBtnEl);
+                changeUser(requestUrl, i);
             }
         });
     }
@@ -98,7 +91,7 @@ import {changeUser, deleteUser} from './modules/userchanger.js';
             formEl.style.display = "none";
             formBtnEl.style.display = "none";
             if(confirm(`Do you really want to delete profile?`)){
-                deleteUser(newUrl, i, paginator, cardsEl, changeBtnEl, delBtnEl);
+                deleteUser(requestUrl, i);
             }
         })
     }
